@@ -10,6 +10,15 @@ const hpp = require('hpp');
 const mongoSanitize = require('express-mongo-sanitize');
 require('dotenv').config();
 
+// ─── Validate required environment variables on startup ───
+const requiredEnvVars = ['MONGODB_URI', 'JWT_SECRET'];
+const missingVars = requiredEnvVars.filter((v) => !process.env[v]);
+if (missingVars.length > 0) {
+  console.error(`❌ Missing required environment variables: ${missingVars.join(', ')}`);
+  console.error('   Create a .env file from .env.example and fill in the values.');
+  process.exit(1);
+}
+
 const userRoutes = require('./routers/userRoutes');
 const adminRoutes = require('./routers/adminRoutes');
 
@@ -46,10 +55,24 @@ app.use('/api/users/login', authLimiter);
 app.use('/api/users/register', authLimiter);
 
 // CORS configuration
+const getAllowedOrigins = () => {
+  if (process.env.NODE_ENV === 'production') {
+    const frontendUrl = process.env.FRONTEND_URL || '';
+    return frontendUrl.split(',').map((url) => url.trim()).filter(Boolean);
+  }
+  return ['http://localhost:5172', 'http://localhost:5173', 'http://localhost:3000'];
+};
+
 const corsOptions = {
-  origin: process.env.NODE_ENV === 'production' 
-    ? process.env.FRONTEND_URL 
-    : ['http://localhost:5172', 'http://localhost:5173', 'http://localhost:3000'],
+  origin: (origin, callback) => {
+    const allowed = getAllowedOrigins();
+    // Allow requests with no origin (mobile apps, Postman, server-to-server)
+    if (!origin || allowed.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
@@ -83,11 +106,13 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads'), {
 
 // Health check endpoint
 app.get('/health', (req, res) => {
-  res.status(200).json({ 
-    status: 'ok', 
+  const mongoState = ['disconnected', 'connected', 'connecting', 'disconnecting'];
+  res.status(mongoose.connection.readyState === 1 ? 200 : 503).json({ 
+    status: mongoose.connection.readyState === 1 ? 'ok' : 'degraded', 
     timestamp: new Date().toISOString(),
-    uptime: process.uptime(),
+    uptime: Math.floor(process.uptime()),
     environment: process.env.NODE_ENV || 'development',
+    database: mongoState[mongoose.connection.readyState] || 'unknown',
   });
 });
 
@@ -159,6 +184,17 @@ const mongoOptions = {
   serverSelectionTimeoutMS: 5000,
   socketTimeoutMS: 45000,
 };
+
+// MongoDB connection event handlers
+mongoose.connection.on('disconnected', () => {
+  console.warn('⚠️  MongoDB disconnected. Attempting to reconnect...');
+});
+mongoose.connection.on('reconnected', () => {
+  console.log('✅ MongoDB reconnected');
+});
+mongoose.connection.on('error', (err) => {
+  console.error('❌ MongoDB connection error:', err.message);
+});
 
 mongoose
   .connect(process.env.MONGODB_URI, mongoOptions)
