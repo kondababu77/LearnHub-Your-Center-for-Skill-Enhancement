@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import AxiosInstance from '../../common/AxiosInstance';
+import AxiosInstance, { API_URL } from '../../common/AxiosInstance';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -166,7 +166,7 @@ const ManageCourseContent = () => {
                 <img
                   src={
                     course.C_image
-                      ? `http://localhost:5000${course.C_image}`
+                      ? `${API_URL}${course.C_image}`
                       : 'https://placehold.co/200x120?text=Course'
                   }
                   className="img-fluid rounded"
@@ -393,7 +393,7 @@ const ManageCourseContent = () => {
                         controls
                         className="rounded"
                         style={{ maxWidth: '100%', maxHeight: 200 }}
-                        src={`http://localhost:5000${section.videoUrl}`}
+                        src={`${API_URL}${section.videoUrl}`}
                       >
                         Your browser does not support the video tag.
                       </video>

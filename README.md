@@ -255,8 +255,8 @@ cp .env.example .env
 ```env
 NODE_ENV=development
 PORT=5000
-MONGODB_URI=mongodb://localhost:27017/learnhub
-JWT_SECRET=your_super_secret_jwt_key
+MONGODB_URI=<your_mongodb_connection_string>
+JWT_SECRET=<your_secret_key>
 ```
 
 ### Start Development Server
@@ -293,8 +293,8 @@ docker-compose up -d --build
 3. Access the application at `http://localhost`
 
 4. Default admin credentials:
-   - Email: admin@learnhub.com
-   - Password: Admin@123
+   - Email: *(set via environment variable)*
+   - Password: *(set via environment variable)*
 
 ### Option 2: Manual Deployment
 
@@ -307,8 +307,8 @@ npm run build
 2. Set production environment variables in backend:
 ```bash
 export NODE_ENV=production
-export MONGODB_URI=your_mongodb_connection_string
-export JWT_SECRET=your_production_secret
+export MONGODB_URI=<your_mongodb_connection_string>
+export JWT_SECRET=<your_secret_key>
 export FRONTEND_URL=https://yourdomain.com
 ```
 

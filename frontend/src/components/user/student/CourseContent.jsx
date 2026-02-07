@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import AxiosInstance from '../../common/AxiosInstance';
+import AxiosInstance, { API_URL } from '../../common/AxiosInstance';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -217,7 +217,7 @@ const CourseContent = () => {
                   <div className="learning-video-container">
                     <video
                       controls
-                      src={`http://localhost:5000${currentSection.videoUrl}`}
+                      src={`${API_URL}${currentSection.videoUrl}`}
                       controlsList="nodownload"
                     >
                       Your browser does not support the video tag.

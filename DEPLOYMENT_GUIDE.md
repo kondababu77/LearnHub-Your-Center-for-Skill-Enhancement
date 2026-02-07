@@ -135,7 +135,7 @@ Scroll down to **Environment Variables** and add:
 | `NODE_ENV` | `production` |
 | `PORT` | `10000` |
 | `MONGODB_URI` | `mongodb+srv://learnhub_user:YOUR_PASSWORD@cluster0.xxxxx.mongodb.net/learnhub?retryWrites=true&w=majority` |
-| `JWT_SECRET` | `your-super-secret-jwt-key-make-it-long-and-random-123456` |
+| `JWT_SECRET` | *(generate a strong random string, e.g. via `openssl rand -hex 32`)* |
 | `JWT_EXPIRES_IN` | `7d` |
 | `FRONTEND_URL` | `https://your-app-name.vercel.app` (update after Step 4) |
 

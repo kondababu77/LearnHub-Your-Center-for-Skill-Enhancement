@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import AxiosInstance from './AxiosInstance';
+import AxiosInstance, { API_URL } from './AxiosInstance';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import PersonIcon from '@mui/icons-material/Person';
 import GroupIcon from '@mui/icons-material/Group';
@@ -234,7 +234,7 @@ const CourseDetail = () => {
               <img
                 src={
                   course.C_image
-                    ? `http://localhost:5000${course.C_image}`
+                    ? `${API_URL}${course.C_image}`
                     : 'https://placehold.co/400x300?text=Course+Image'
                 }
                 className="sidebar-card-image"

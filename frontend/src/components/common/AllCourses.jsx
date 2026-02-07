@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import AxiosInstance from './AxiosInstance';
+import AxiosInstance, { API_URL } from './AxiosInstance';
 import PaymentModal from './PaymentModal';
 import SearchIcon from '@mui/icons-material/Search';
 import FilterListIcon from '@mui/icons-material/FilterList';
@@ -190,7 +190,7 @@ const AllCourses = () => {
                   <img
                     src={
                       course.C_image
-                        ? `http://localhost:5000${course.C_image}`
+                        ? `${API_URL}${course.C_image}`
                         : 'https://placehold.co/400x200?text=Course+Image'
                     }
                     alt={course.C_title}

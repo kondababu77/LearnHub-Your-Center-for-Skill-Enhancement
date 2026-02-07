@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import AxiosInstance from '../common/AxiosInstance';
+import AxiosInstance, { API_URL } from '../common/AxiosInstance';
 import SearchIcon from '@mui/icons-material/Search';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -159,7 +159,7 @@ const AdminAllCourses = () => {
                           <img
                             src={
                               course.C_image
-                                ? `http://localhost:5000${course.C_image}`
+                                ? `${API_URL}${course.C_image}`
                                 : 'https://placehold.co/60x40?text=Course'
                             }
                             alt={course.C_title}

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import AxiosInstance from '../../common/AxiosInstance';
+import AxiosInstance, { API_URL } from '../../common/AxiosInstance';
 import SchoolIcon from '@mui/icons-material/School';
 import BookIcon from '@mui/icons-material/Book';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
@@ -152,7 +152,7 @@ const StudentHome = () => {
                     <img
                       src={
                         enrollment.courseID?.C_image
-                          ? `http://localhost:5000${enrollment.courseID.C_image}`
+                          ? `${API_URL}${enrollment.courseID.C_image}`
                           : 'https://placehold.co/400x200?text=Course'
                       }
                       alt={enrollment.courseID?.C_title}
