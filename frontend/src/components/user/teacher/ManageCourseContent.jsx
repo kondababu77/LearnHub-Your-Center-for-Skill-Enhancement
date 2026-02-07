@@ -402,65 +402,6 @@ const ManageCourseContent = () => {
                 </div>
               ))}
             </div>
-                          onCancel={() => setEditingSectionIndex(null)}
-                        />
-                      ) : (
-                        <>
-                          <h6 className="mb-1">{section.title}</h6>
-                          {section.description && (
-                            <p className="text-muted small mb-2">
-                              {section.description}
-                            </p>
-                          )}
-                          <div className="d-flex gap-3 text-muted small">
-                            {section.duration > 0 && (
-                              <span>Duration: {section.duration} min</span>
-                            )}
-                            {section.videoUrl && (
-                              <span className="text-success">
-                                <PlayCircleIcon fontSize="small" className="me-1" />
-                                Video uploaded
-                              </span>
-                            )}
-                          </div>
-                        </>
-                      )}
-                    </div>
-
-                    {editingSectionIndex !== index && (
-                      <div className="d-flex gap-2">
-                        <button
-                          className="btn btn-outline-primary btn-sm"
-                          onClick={() => setEditingSectionIndex(index)}
-                        >
-                          <EditIcon fontSize="small" />
-                        </button>
-                        <button
-                          className="btn btn-outline-danger btn-sm"
-                          onClick={() => handleDeleteSection(section._id)}
-                        >
-                          <DeleteIcon fontSize="small" />
-                        </button>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Video Preview */}
-                  {section.videoUrl && editingSectionIndex !== index && (
-                    <div className="mt-3 ms-5 ps-3">
-                      <video
-                        controls
-                        className="rounded"
-                        style={{ maxWidth: '100%', maxHeight: 200 }}
-                        src={`http://localhost:5000${section.videoUrl}`}
-                      >
-                        Your browser does not support the video tag.
-                      </video>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
           ) : (
             <div className="text-center py-5">
               <VideoLibraryIcon style={{ fontSize: 60, color: 'var(--gray-300)' }} />
