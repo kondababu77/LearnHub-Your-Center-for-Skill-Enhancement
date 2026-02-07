@@ -159,243 +159,233 @@ const AddCourse = () => {
   }
 
   return (
-    <div className="container py-4">
-      <Link to="/teacher" className="btn btn-outline-secondary mb-3">
-        <ArrowBackIcon fontSize="small" className="me-1" />
-        Back to Dashboard
-      </Link>
+    <div className="form-page">
+      <div className="form-page-container">
+        <Link to="/teacher" className="form-back-link">
+          <ArrowBackIcon fontSize="small" />
+          Back to Dashboard
+        </Link>
 
-      <div className="row">
-        <div className="col-lg-8">
-          <div className="card border-0 shadow-sm">
-            <div className="card-header bg-white">
-              <h4 className="mb-0">
-                {editId ? 'Edit Course' : 'Create New Course'}
-              </h4>
-            </div>
-            <div className="card-body">
-              <form onSubmit={handleSubmit}>
-                {/* Course Details */}
-                <div className="mb-4">
-                  <h6 className="text-muted mb-3">Course Details</h6>
+        <div className="row">
+          <div className="col-lg-8">
+            <div className="form-card">
+              <div className="form-card-header">
+                <h2>{editId ? 'Edit Course' : 'Create New Course'}</h2>
+              </div>
+              <div className="form-card-body">
+                <form onSubmit={handleSubmit}>
+                  {/* Course Details */}
+                  <div className="mb-4">
+                    <h6 className="form-section-title">Course Details</h6>
 
-                  <div className="mb-3">
-                    <label className="form-label">Course Title *</label>
-                    <input
-                      type="text"
-                      name="C_title"
-                      className="form-control"
-                      placeholder="Enter course title"
-                      value={formData.C_title}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-
-                  <div className="mb-3">
-                    <label className="form-label">Description *</label>
-                    <textarea
-                      name="C_description"
-                      className="form-control"
-                      rows="4"
-                      placeholder="Enter course description"
-                      value={formData.C_description}
-                      onChange={handleChange}
-                      required
-                    ></textarea>
-                  </div>
-
-                  <div className="row">
-                    <div className="col-md-6 mb-3">
-                      <label className="form-label">Category *</label>
-                      <select
-                        name="C_categories"
-                        className="form-select"
-                        value={formData.C_categories}
-                        onChange={handleChange}
-                      >
-                        {categories.map((cat) => (
-                          <option key={cat} value={cat}>
-                            {cat}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div className="col-md-6 mb-3">
-                      <label className="form-label">Price ($)</label>
-                      <input
-                        type="number"
-                        name="C_price"
-                        className="form-control"
-                        min="0"
-                        step="0.01"
-                        value={formData.C_price}
-                        onChange={handleChange}
-                      />
-                      <small className="text-muted">
-                        Set to 0 for free course
-                      </small>
-                    </div>
-                  </div>
-
-                  {!editId && (
                     <div className="mb-3">
-                      <label className="form-label">Course Image</label>
+                      <label className="form-label">Course Title *</label>
                       <input
-                        type="file"
+                        type="text"
+                        name="C_title"
                         className="form-control"
-                        accept="image/*"
-                        onChange={(e) => setImage(e.target.files[0])}
+                        placeholder="Enter course title"
+                        value={formData.C_title}
+                        onChange={handleChange}
+                        required
                       />
                     </div>
-                  )}
-                </div>
 
-                {/* Sections */}
-                <div className="mb-4">
-                  <h6 className="text-muted mb-3">Course Sections</h6>
-
-                  {sections.length > 0 && (
                     <div className="mb-3">
-                      {sections.map((section, index) => (
-                        <div
-                          key={section._id}
-                          className="d-flex align-items-center justify-content-between p-3 bg-light rounded mb-2"
+                      <label className="form-label">Description *</label>
+                      <textarea
+                        name="C_description"
+                        className="form-control"
+                        rows="4"
+                        placeholder="Enter course description"
+                        value={formData.C_description}
+                        onChange={handleChange}
+                        required
+                      ></textarea>
+                    </div>
+
+                    <div className="row">
+                      <div className="col-md-6 mb-3">
+                        <label className="form-label">Category *</label>
+                        <select
+                          name="C_categories"
+                          className="form-select"
+                          value={formData.C_categories}
+                          onChange={handleChange}
                         >
-                          <div>
-                            <strong>
-                              {index + 1}. {section.title}
-                            </strong>
-                            {section.description && (
-                              <p className="mb-0 text-muted small">
-                                {section.description}
-                              </p>
-                            )}
-                            {section.duration > 0 && (
-                              <small className="text-muted">
-                                Duration: {section.duration} min
-                              </small>
-                            )}
-                          </div>
-                          <button
-                            type="button"
-                            className="btn btn-outline-danger btn-sm"
-                            onClick={() => handleRemoveSection(index)}
-                          >
-                            <DeleteIcon fontSize="small" />
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* Add Section Form */}
-                  <div className="border rounded p-3">
-                    <h6>Add New Section</h6>
-                    <div className="row g-2">
-                      <div className="col-md-6">
-                        <input
-                          type="text"
-                          name="title"
-                          className="form-control"
-                          placeholder="Section title"
-                          value={newSection.title}
-                          onChange={handleSectionChange}
-                        />
+                          {categories.map((cat) => (
+                            <option key={cat} value={cat}>
+                              {cat}
+                            </option>
+                          ))}
+                        </select>
                       </div>
-                      <div className="col-md-4">
+
+                      <div className="col-md-6 mb-3">
+                        <label className="form-label">Price ($)</label>
                         <input
                           type="number"
-                          name="duration"
+                          name="C_price"
                           className="form-control"
-                          placeholder="Duration (min)"
                           min="0"
-                          value={newSection.duration}
-                          onChange={handleSectionChange}
+                          step="0.01"
+                          value={formData.C_price}
+                          onChange={handleChange}
+                        />
+                        <small className="form-text">
+                          Set to 0 for free course
+                        </small>
+                      </div>
+                    </div>
+
+                    {!editId && (
+                      <div className="mb-3">
+                        <label className="form-label">Course Image</label>
+                        <input
+                          type="file"
+                          className="form-control"
+                          accept="image/*"
+                          onChange={(e) => setImage(e.target.files[0])}
                         />
                       </div>
-                      <div className="col-md-2">
-                        <button
-                          type="button"
-                          className="btn btn-outline-primary w-100"
-                          onClick={handleAddSection}
-                        >
-                          <AddIcon />
-                        </button>
+                    )}
+                  </div>
+
+                  {/* Sections */}
+                  <div className="mb-4">
+                    <h6 className="form-section-title">Course Sections</h6>
+
+                    {sections.length > 0 && (
+                      <div className="mb-3">
+                        {sections.map((section, index) => (
+                          <div key={section._id} className="section-entry">
+                            <div className="section-entry-info">
+                              <strong>
+                                {index + 1}. {section.title}
+                              </strong>
+                              {section.description && (
+                                <p>{section.description}</p>
+                              )}
+                              {section.duration > 0 && (
+                                <small>Duration: {section.duration} min</small>
+                              )}
+                            </div>
+                            <button
+                              type="button"
+                              className="btn btn-outline-danger btn-sm"
+                              onClick={() => handleRemoveSection(index)}
+                            >
+                              <DeleteIcon fontSize="small" />
+                            </button>
+                          </div>
+                        ))}
                       </div>
-                      <div className="col-12">
-                        <textarea
-                          name="description"
-                          className="form-control"
-                          placeholder="Section description (optional)"
-                          rows="2"
-                          value={newSection.description}
-                          onChange={handleSectionChange}
-                        ></textarea>
+                    )}
+
+                    {/* Add Section Form */}
+                    <div className="add-section-form">
+                      <h4>Add New Section</h4>
+                      <div className="row g-2">
+                        <div className="col-md-6">
+                          <input
+                            type="text"
+                            name="title"
+                            className="form-control"
+                            placeholder="Section title"
+                            value={newSection.title}
+                            onChange={handleSectionChange}
+                          />
+                        </div>
+                        <div className="col-md-4">
+                          <input
+                            type="number"
+                            name="duration"
+                            className="form-control"
+                            placeholder="Duration (min)"
+                            min="0"
+                            value={newSection.duration}
+                            onChange={handleSectionChange}
+                          />
+                        </div>
+                        <div className="col-md-2">
+                          <button
+                            type="button"
+                            className="btn btn-outline-primary w-100"
+                            onClick={handleAddSection}
+                          >
+                            <AddIcon />
+                          </button>
+                        </div>
+                        <div className="col-12">
+                          <textarea
+                            name="description"
+                            className="form-control"
+                            placeholder="Section description (optional)"
+                            rows="2"
+                            value={newSection.description}
+                            onChange={handleSectionChange}
+                          ></textarea>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                {/* Submit Button */}
-                <div className="d-flex gap-2">
-                  <button
-                    type="submit"
-                    className="btn btn-primary"
-                    disabled={loading}
-                  >
-                    {loading ? (
-                      <CircularProgress size={20} color="inherit" />
-                    ) : (
-                      <>
-                        <SaveIcon className="me-1" />
-                        {editId ? 'Update Course' : 'Create Course'}
-                      </>
-                    )}
-                  </button>
-                  <Link to="/teacher" className="btn btn-outline-secondary">
-                    Cancel
-                  </Link>
-                </div>
-              </form>
+                  {/* Submit Button */}
+                  <div className="form-actions">
+                    <button
+                      type="submit"
+                      className="btn btn-primary"
+                      disabled={loading}
+                    >
+                      {loading ? (
+                        <CircularProgress size={20} color="inherit" />
+                      ) : (
+                        <>
+                          <SaveIcon className="me-1" />
+                          {editId ? 'Update Course' : 'Create Course'}
+                        </>
+                      )}
+                    </button>
+                    <Link to="/teacher" className="btn btn-outline-secondary">
+                      Cancel
+                    </Link>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Preview */}
-        <div className="col-lg-4 mt-4 mt-lg-0">
-          <div className="card border-0 shadow-sm sticky-top" style={{ top: 90 }}>
-            <div className="card-header bg-white">
-              <h6 className="mb-0">Preview</h6>
-            </div>
-            <div className="card-body">
-              <img
-                src={
-                  image
-                    ? URL.createObjectURL(image)
-                    : 'https://placehold.co/400x200?text=Course+Image'
-                }
-                className="img-fluid rounded mb-3"
-                alt="Preview"
-              />
-              <span className="badge bg-primary mb-2">
-                {formData.C_categories}
-              </span>
-              <h5>{formData.C_title || 'Course Title'}</h5>
-              <p className="text-muted small">
-                {formData.C_description?.substring(0, 100) ||
-                  'Course description will appear here...'}
-              </p>
-              <div className="d-flex justify-content-between">
-                <span className="text-primary fw-bold">
-                  {formData.C_price === 0
-                    ? 'Free'
-                    : `$${formData.C_price}`}
+          {/* Preview */}
+          <div className="col-lg-4 mt-4 mt-lg-0">
+            <div className="preview-card">
+              <div className="preview-card-header">Preview</div>
+              <div className="preview-card-body">
+                <img
+                  src={
+                    image
+                      ? URL.createObjectURL(image)
+                      : 'https://placehold.co/400x200?text=Course+Image'
+                  }
+                  alt="Preview"
+                />
+                <span className="badge bg-primary mb-2">
+                  {formData.C_categories}
                 </span>
-                <span className="text-muted small">
-                  {sections.length} sections
-                </span>
+                <h3>{formData.C_title || 'Course Title'}</h3>
+                <p>
+                  {formData.C_description?.substring(0, 100) ||
+                    'Course description will appear here...'}
+                </p>
+                <div className="d-flex justify-content-between">
+                  <span style={{ color: 'var(--primary-600)', fontWeight: 600 }}>
+                    {formData.C_price === 0
+                      ? 'Free'
+                      : `$${formData.C_price}`}
+                  </span>
+                  <span style={{ color: 'var(--gray-500)', fontSize: 'var(--text-sm)' }}>
+                    {sections.length} sections
+                  </span>
+                </div>
               </div>
             </div>
           </div>

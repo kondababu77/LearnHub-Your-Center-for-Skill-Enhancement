@@ -30,53 +30,39 @@ const UserHome = () => {
   }
 
   return (
-    <div className="container py-4">
-      <div className="card border-0 shadow-sm">
-        <div className="card-body p-4">
-          <div className="d-flex align-items-center mb-4">
-            <div
-              className="rounded-circle bg-primary d-flex align-items-center justify-content-center text-white"
-              style={{ width: 80, height: 80, fontSize: 32 }}
-            >
-              {user.name?.charAt(0).toUpperCase()}
-            </div>
-            <div className="ms-3">
-              <h3 className="mb-1">{user.name}</h3>
-              <p className="text-muted mb-0">{user.email}</p>
-              <span className={`badge bg-${user.type === 'Admin' ? 'danger' : user.type === 'Teacher' ? 'warning' : 'success'}`}>
-                {user.type}
-              </span>
-            </div>
+    <div className="profile-page">
+      <div className="profile-container">
+        {/* Profile Header Card */}
+        <div className="profile-header-card">
+          <div className="profile-avatar">
+            {user.name?.charAt(0).toUpperCase()}
           </div>
+          <h2 className="profile-name">{user.name}</h2>
+          <p className="profile-email">{user.email}</p>
+          <span className="profile-role-badge">{user.type}</span>
+        </div>
 
-          <hr />
-
-          <div className="row">
-            <div className="col-md-6">
-              <h5>Account Information</h5>
-              <table className="table">
-                <tbody>
-                  <tr>
-                    <td className="text-muted">Name</td>
-                    <td>{user.name}</td>
-                  </tr>
-                  <tr>
-                    <td className="text-muted">Email</td>
-                    <td>{user.email}</td>
-                  </tr>
-                  <tr>
-                    <td className="text-muted">Role</td>
-                    <td>{user.type}</td>
-                  </tr>
-                  <tr>
-                    <td className="text-muted">Status</td>
-                    <td>
-                      <span className="badge bg-success">Active</span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+        {/* Account Information */}
+        <div className="profile-info-card">
+          <div className="profile-info-header">Account Information</div>
+          <div className="profile-info-row">
+            <span className="profile-info-label">Full Name</span>
+            <span className="profile-info-value">{user.name}</span>
+          </div>
+          <div className="profile-info-row">
+            <span className="profile-info-label">Email Address</span>
+            <span className="profile-info-value">{user.email}</span>
+          </div>
+          <div className="profile-info-row">
+            <span className="profile-info-label">Account Role</span>
+            <span className="profile-info-value">{user.type}</span>
+          </div>
+          <div className="profile-info-row">
+            <span className="profile-info-label">Account Status</span>
+            <span className="profile-status-active">
+              <span className="profile-status-dot"></span>
+              Active
+            </span>
           </div>
         </div>
       </div>

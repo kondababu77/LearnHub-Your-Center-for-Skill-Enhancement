@@ -1,5 +1,6 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import NavBar from './components/common/NavBar'
+import Footer from './components/common/Footer'
 import Home from './components/common/Home'
 import Login from './components/common/Login'
 import Register from './components/common/Register'
@@ -136,8 +137,17 @@ function App() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
+      <AppFooter />
     </div>
   )
+}
+
+function AppFooter() {
+  const location = useLocation()
+  const hiddenPaths = ['/course-content/', '/login', '/register']
+  const shouldHide = hiddenPaths.some(p => location.pathname.startsWith(p))
+  if (shouldHide) return null
+  return <Footer />
 }
 
 export default App

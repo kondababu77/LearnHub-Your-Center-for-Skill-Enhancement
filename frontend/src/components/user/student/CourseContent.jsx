@@ -113,100 +113,90 @@ const CourseContent = () => {
   const currentSection = course.sections?.[currentSectionIndex];
 
   return (
-    <div className="container-fluid py-4">
+    <div className="learning-page">
       {/* Header */}
-      <div className="row mb-4">
-        <div className="col-12">
-          <Link to="/enrolled-courses" className="btn btn-outline-secondary mb-3">
-            <ArrowBackIcon fontSize="small" className="me-1" />
+      <div className="learning-header">
+        <div className="learning-header-inner">
+          <Link to="/enrolled-courses" className="form-back-link" style={{ marginBottom: 0 }}>
+            <ArrowBackIcon fontSize="small" />
             Back to My Courses
           </Link>
-          <div className="d-flex justify-content-between align-items-start">
+          <div className="d-flex justify-content-between align-items-start mt-3">
             <div>
-              <h2>{course.C_title}</h2>
-              <p className="text-muted">By {course.C_educator}</p>
+              <h2 style={{ fontSize: 'var(--text-xl)', fontWeight: 600, color: 'var(--gray-900)', margin: 0 }}>
+                {course.C_title}
+              </h2>
+              <p style={{ fontSize: 'var(--text-sm)', color: 'var(--gray-500)', margin: 'var(--space-1) 0 0' }}>
+                By {course.C_educator}
+              </p>
             </div>
             <div className="text-end">
-              <div className="h4 text-primary mb-1">
+              <div style={{ fontSize: 'var(--text-xl)', fontWeight: 700, color: 'var(--primary-600)' }}>
                 {enrollment.completionPercentage}%
               </div>
-              <small className="text-muted">Complete</small>
+              <small style={{ color: 'var(--gray-500)', fontSize: 'var(--text-xs)' }}>Complete</small>
             </div>
           </div>
-          <div className="progress" style={{ height: 8 }}>
+          <div className="learning-progress-bar">
             <div
-              className="progress-bar"
+              className="learning-progress-fill"
               style={{ width: `${enrollment.completionPercentage}%` }}
             ></div>
           </div>
         </div>
       </div>
 
-      <div className="row">
+      <div className="learning-body">
         {/* Sidebar - Section List */}
-        <div className="col-lg-4 col-xl-3 mb-4">
-          <div className="card border-0 shadow-sm">
-            <div className="card-header bg-white">
-              <h6 className="mb-0">Course Content</h6>
-              <small className="text-muted">
-                {course.sections?.length || 0} sections
-              </small>
+        <div className="learning-sidebar">
+          <div className="learning-section-list">
+            <div className="learning-section-header">
+              <h3>Course Content</h3>
+              <span>{course.sections?.length || 0} sections</span>
             </div>
-            <div className="card-body p-0">
-              {course.sections?.map((section, index) => (
-                <div
-                  key={section._id}
-                  className={`section-item ${
-                    index === currentSectionIndex ? 'active' : ''
-                  } ${isSectionCompleted(section._id) ? 'completed' : ''}`}
-                  onClick={() => handleSectionClick(index)}
-                >
-                  <div className="d-flex align-items-center">
-                    {isSectionCompleted(section._id) ? (
-                      <CheckCircleIcon
-                        style={{ color: '#059669', marginRight: 8 }}
-                      />
-                    ) : (
-                      <PlayCircleIcon
-                        style={{ color: '#2563eb', marginRight: 8 }}
-                      />
-                    )}
-                    <div>
-                      <div className="fw-medium">{section.title}</div>
-                      {section.duration > 0 && (
-                        <small className="text-muted">
-                          {section.duration} min
-                        </small>
-                      )}
-                    </div>
-                  </div>
+            {course.sections?.map((section, index) => (
+              <div
+                key={section._id}
+                className={`learning-section-item ${
+                  index === currentSectionIndex ? 'active' : ''
+                } ${isSectionCompleted(section._id) ? 'completed' : ''}`}
+                onClick={() => handleSectionClick(index)}
+              >
+                <div className="section-icon">
+                  {isSectionCompleted(section._id) ? (
+                    <CheckCircleIcon style={{ color: 'var(--success-600)', fontSize: 20 }} />
+                  ) : (
+                    <PlayCircleIcon style={{ color: 'var(--primary-500)', fontSize: 20 }} />
+                  )}
                 </div>
-              ))}
-            </div>
+                <div className="section-details">
+                  <div className="section-name">{section.title}</div>
+                  {section.duration > 0 && (
+                    <span className="section-duration">{section.duration} min</span>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
 
           {/* Certificate Section */}
           {enrollment.isCompleted && (
-            <div className="card border-success mt-3">
-              <div className="card-body text-center">
-                <EmojiEventsIcon
-                  style={{ fontSize: 48, color: '#f59e0b' }}
-                />
-                <h6 className="mt-2">Course Completed!</h6>
-                <button
-                  className="btn btn-success btn-sm mt-2"
-                  onClick={() => setShowCertificate(true)}
-                >
-                  <DownloadIcon fontSize="small" className="me-1" />
-                  View Certificate
-                </button>
-              </div>
+            <div className="learning-certificate-card">
+              <EmojiEventsIcon style={{ fontSize: 48, color: '#f59e0b' }} />
+              <h4>Course Completed!</h4>
+              <button
+                className="btn btn-success btn-sm"
+                onClick={() => setShowCertificate(true)}
+              >
+                <DownloadIcon fontSize="small" className="me-1" />
+                View Certificate
+              </button>
             </div>
           )}
         </div>
 
         {/* Main Content */}
-        <div className="col-lg-8 col-xl-9">
+        <div className="learning-main">
           {showCertificate && enrollment.isCompleted ? (
             <Certificate
               studentName={JSON.parse(localStorage.getItem('user'))?.name}
@@ -217,30 +207,27 @@ const CourseContent = () => {
               onClose={() => setShowCertificate(false)}
             />
           ) : currentSection ? (
-            <div className="card border-0 shadow-sm">
-              <div className="card-body">
-                <h4>{currentSection.title}</h4>
-                <p className="text-muted mb-4">{currentSection.description}</p>
+            <div className="learning-content-card">
+              <div className="learning-content-body">
+                <h2>{currentSection.title}</h2>
+                <p className="description">{currentSection.description}</p>
 
                 {/* Video Player */}
                 {currentSection.videoUrl ? (
-                  <div className="video-container mb-4">
+                  <div className="learning-video-container">
                     <video
                       controls
                       src={`http://localhost:5000${currentSection.videoUrl}`}
-                      style={{ width: '100%', maxHeight: '500px', backgroundColor: '#000' }}
                       controlsList="nodownload"
                     >
                       Your browser does not support the video tag.
                     </video>
                   </div>
                 ) : (
-                  <div className="bg-light p-5 rounded mb-4 text-center">
-                    <PlayCircleIcon
-                      style={{ fontSize: 80, color: '#2563eb', opacity: 0.5 }}
-                    />
-                    <h5 className="mt-3">Read the section content</h5>
-                    <p className="text-muted">
+                  <div className="learning-video-placeholder">
+                    <PlayCircleIcon style={{ fontSize: 80, color: 'var(--primary-500)', opacity: 0.5 }} />
+                    <h3>Read the section content</h3>
+                    <p>
                       This section contains text-based content. Read through the description and mark as complete when done.
                     </p>
                   </div>
@@ -248,22 +235,18 @@ const CourseContent = () => {
 
                 {/* Section Description */}
                 {currentSection.description && (
-                  <div className="bg-light p-4 rounded mb-4">
-                    <h6 className="text-muted mb-2">Section Content</h6>
-                    <p className="mb-0" style={{ whiteSpace: 'pre-wrap' }}>
-                      {currentSection.description}
-                    </p>
+                  <div className="learning-section-content">
+                    <h4>Section Content</h4>
+                    <p>{currentSection.description}</p>
                   </div>
                 )}
 
                 {/* Actions */}
-                <div className="d-flex justify-content-between align-items-center">
+                <div className="learning-actions">
                   <button
                     className="btn btn-outline-secondary"
                     disabled={currentSectionIndex === 0}
-                    onClick={() =>
-                      handleSectionClick(currentSectionIndex - 1)
-                    }
+                    onClick={() => handleSectionClick(currentSectionIndex - 1)}
                   >
                     Previous
                   </button>
@@ -271,9 +254,7 @@ const CourseContent = () => {
                   {!isSectionCompleted(currentSection._id) ? (
                     <button
                       className="btn btn-success"
-                      onClick={() =>
-                        handleMarkComplete(currentSection._id)
-                      }
+                      onClick={() => handleMarkComplete(currentSection._id)}
                       disabled={markingComplete}
                     >
                       {markingComplete ? (
@@ -284,20 +265,16 @@ const CourseContent = () => {
                       {markingComplete ? 'Updating...' : 'Mark as Complete'}
                     </button>
                   ) : (
-                    <span className="badge bg-success p-2">
-                      <CheckCircleIcon fontSize="small" className="me-1" />
+                    <span className="completed-badge">
+                      <CheckCircleIcon fontSize="small" />
                       Completed
                     </span>
                   )}
 
                   <button
                     className="btn btn-primary"
-                    disabled={
-                      currentSectionIndex === course.sections.length - 1
-                    }
-                    onClick={() =>
-                      handleSectionClick(currentSectionIndex + 1)
-                    }
+                    disabled={currentSectionIndex === course.sections.length - 1}
+                    onClick={() => handleSectionClick(currentSectionIndex + 1)}
                   >
                     Next
                   </button>
@@ -305,9 +282,9 @@ const CourseContent = () => {
               </div>
             </div>
           ) : (
-            <div className="card border-0 shadow-sm">
-              <div className="card-body text-center py-5">
-                <p className="text-muted">
+            <div className="learning-content-card">
+              <div className="learning-content-body text-center py-5">
+                <p style={{ color: 'var(--gray-500)' }}>
                   No content available for this course yet.
                 </p>
               </div>

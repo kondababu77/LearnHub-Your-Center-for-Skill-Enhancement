@@ -79,158 +79,151 @@ const AdminAllCourses = () => {
   };
 
   return (
-    <div className="container-fluid py-4">
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <div>
-          <Link to="/admin" className="btn btn-outline-secondary mb-2">
-            <ArrowBackIcon fontSize="small" className="me-1" />
+    <div className="admin-courses-page">
+      <div className="admin-courses-container">
+        <div className="admin-page-header">
+          <Link to="/admin" className="form-back-link">
+            <ArrowBackIcon fontSize="small" />
             Back to Dashboard
           </Link>
-          <h2>Course Management</h2>
+          <h1>Course Management</h1>
         </div>
-      </div>
 
-      {/* Search and Filter */}
-      <div className="card border-0 shadow-sm p-3 mb-4">
-        <div className="row g-3 align-items-center">
-          <div className="col-md-6">
-            <form onSubmit={handleSearch}>
+        {/* Search and Filter */}
+        <div className="filter-bar content-card" style={{ padding: 'var(--space-5) var(--space-6)' }}>
+          <div className="row g-3 align-items-center">
+            <div className="col-md-6">
+              <form onSubmit={handleSearch}>
+                <div className="input-group">
+                  <span className="input-group-text bg-white">
+                    <SearchIcon />
+                  </span>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Search courses..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                  />
+                  <button type="submit" className="btn btn-primary">
+                    Search
+                  </button>
+                </div>
+              </form>
+            </div>
+            <div className="col-md-4">
               <div className="input-group">
                 <span className="input-group-text bg-white">
-                  <SearchIcon />
+                  <FilterListIcon />
                 </span>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Search courses..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                />
-                <button type="submit" className="btn btn-primary">
-                  Search
-                </button>
+                <select
+                  className="form-select"
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                >
+                  {categories.map((cat) => (
+                    <option key={cat} value={cat}>
+                      {cat}
+                    </option>
+                  ))}
+                </select>
               </div>
-            </form>
-          </div>
-          <div className="col-md-4">
-            <div className="input-group">
-              <span className="input-group-text bg-white">
-                <FilterListIcon />
-              </span>
-              <select
-                className="form-select"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-              >
-                {categories.map((cat) => (
-                  <option key={cat} value={cat}>
-                    {cat}
-                  </option>
-                ))}
-              </select>
             </div>
           </div>
         </div>
-      </div>
 
-      {loading ? (
-        <div className="loader">
-          <CircularProgress />
-        </div>
-      ) : (
-        <div className="table-container">
-          <div className="table-responsive">
-            <table className="table table-hover">
-              <thead className="table-light">
-                <tr>
-                  <th>Course</th>
-                  <th>Instructor</th>
-                  <th>Category</th>
-                  <th>Price</th>
-                  <th>Enrolled</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {courses.map((course) => (
-                  <tr key={course._id}>
-                    <td>
-                      <div className="d-flex align-items-center">
-                        <img
-                          src={
-                            course.C_image
-                              ? `http://localhost:5000${course.C_image}`
-                              : 'https://placehold.co/60x40?text=Course'
-                          }
-                          alt={course.C_title}
-                          style={{
-                            width: 60,
-                            height: 40,
-                            objectFit: 'cover',
-                            borderRadius: 4,
-                          }}
-                          className="me-2"
-                        />
-                        <div>
-                          <strong>{course.C_title}</strong>
-                          <br />
-                          <small className="text-muted">
-                            {course.sections?.length || 0} sections
-                          </small>
-                        </div>
-                      </div>
-                    </td>
-                    <td>{course.C_educator}</td>
-                    <td>
-                      <span className="badge bg-primary">{course.C_categories}</span>
-                    </td>
-                    <td>${course.C_price || 'Free'}</td>
-                    <td>{course.enrolled}</td>
-                    <td>
-                      <span
-                        className={`badge ${
-                          course.isPublished ? 'bg-success' : 'bg-secondary'
-                        }`}
-                      >
-                        {course.isPublished ? 'Published' : 'Draft'}
-                      </span>
-                    </td>
-                    <td>
-                      <button
-                        className={`btn btn-sm ${
-                          course.isPublished
-                            ? 'btn-outline-warning'
-                            : 'btn-outline-success'
-                        } me-2`}
-                        onClick={() => handleTogglePublish(course._id)}
-                        title={course.isPublished ? 'Unpublish' : 'Publish'}
-                      >
-                        {course.isPublished ? (
-                          <VisibilityOffIcon fontSize="small" />
-                        ) : (
-                          <VisibilityIcon fontSize="small" />
-                        )}
-                      </button>
-                      <button
-                        className="btn btn-sm btn-outline-danger"
-                        onClick={() => handleDelete(course._id)}
-                        title="Delete"
-                      >
-                        <DeleteIcon fontSize="small" />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        {loading ? (
+          <div className="loader">
+            <CircularProgress />
           </div>
+        ) : (
+          <div className="premium-table-container mt-4">
+            <div className="table-responsive">
+              <table className="premium-table">
+                <thead>
+                  <tr>
+                    <th>Course</th>
+                    <th>Instructor</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Enrolled</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {courses.map((course) => (
+                    <tr key={course._id}>
+                      <td>
+                        <div className="d-flex align-items-center gap-3">
+                          <img
+                            src={
+                              course.C_image
+                                ? `http://localhost:5000${course.C_image}`
+                                : 'https://placehold.co/60x40?text=Course'
+                            }
+                            alt={course.C_title}
+                            className="admin-course-thumb"
+                          />
+                          <div className="admin-course-info">
+                            <span className="admin-course-name">{course.C_title}</span>
+                            <span className="admin-course-sections">
+                              {course.sections?.length || 0} sections
+                            </span>
+                          </div>
+                        </div>
+                      </td>
+                      <td>{course.C_educator}</td>
+                      <td>
+                        <span className="badge bg-primary">{course.C_categories}</span>
+                      </td>
+                      <td>{course.C_price === 0 ? 'Free' : `$${course.C_price}`}</td>
+                      <td>{course.enrolled}</td>
+                      <td>
+                        <span
+                          className={`badge ${
+                            course.isPublished ? 'bg-success' : 'bg-secondary'
+                          }`}
+                        >
+                          {course.isPublished ? 'Published' : 'Draft'}
+                        </span>
+                      </td>
+                      <td>
+                        <button
+                          className={`btn btn-sm ${
+                            course.isPublished
+                              ? 'btn-outline-warning'
+                              : 'btn-outline-success'
+                          } me-2`}
+                          onClick={() => handleTogglePublish(course._id)}
+                          title={course.isPublished ? 'Unpublish' : 'Publish'}
+                        >
+                          {course.isPublished ? (
+                            <VisibilityOffIcon fontSize="small" />
+                          ) : (
+                            <VisibilityIcon fontSize="small" />
+                          )}
+                        </button>
+                        <button
+                          className="btn btn-sm btn-outline-danger"
+                          onClick={() => handleDelete(course._id)}
+                          title="Delete"
+                        >
+                          <DeleteIcon fontSize="small" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
 
-          {courses.length === 0 && (
-            <div className="text-center py-4 text-muted">No courses found</div>
-          )}
-        </div>
-      )}
+            {courses.length === 0 && (
+              <div className="text-center py-4" style={{ color: 'var(--gray-500)' }}>No courses found</div>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

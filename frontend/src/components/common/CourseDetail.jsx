@@ -129,33 +129,33 @@ const CourseDetail = () => {
   return (
     <div className="course-detail-page">
       {/* Hero Section */}
-      <div className="bg-dark text-white py-5">
-        <div className="container">
-          <Link to="/courses" className="btn btn-outline-light btn-sm mb-3">
-            <ArrowBackIcon fontSize="small" className="me-1" />
+      <div className="course-detail-hero">
+        <div className="course-detail-container">
+          <Link to="/courses" className="course-detail-breadcrumb">
+            <ArrowBackIcon fontSize="small" />
             Back to Courses
           </Link>
           <div className="row">
             <div className="col-lg-8">
-              <span className="badge bg-primary mb-3">{course.C_categories}</span>
-              <h1 className="mb-3">{course.C_title}</h1>
-              <p className="lead opacity-75">{course.C_description}</p>
+              <span className="course-detail-category">{course.C_categories}</span>
+              <h1 className="course-detail-title">{course.C_title}</h1>
+              <p className="course-detail-desc">{course.C_description}</p>
               
-              <div className="d-flex flex-wrap gap-4 mt-4">
-                <div className="d-flex align-items-center">
-                  <PersonIcon className="me-2" />
+              <div className="course-detail-meta">
+                <div className="course-meta-item">
+                  <PersonIcon />
                   <span>{course.C_educator}</span>
                 </div>
-                <div className="d-flex align-items-center">
-                  <GroupIcon className="me-2" />
+                <div className="course-meta-item">
+                  <GroupIcon />
                   <span>{course.enrolled} students</span>
                 </div>
-                <div className="d-flex align-items-center">
-                  <PlayCircleIcon className="me-2" />
+                <div className="course-meta-item">
+                  <PlayCircleIcon />
                   <span>{course.sections?.length || 0} sections</span>
                 </div>
-                <div className="d-flex align-items-center">
-                  <AccessTimeIcon className="me-2" />
+                <div className="course-meta-item">
+                  <AccessTimeIcon />
                   <span>{getTotalDuration()} min total</span>
                 </div>
               </div>
@@ -164,107 +164,85 @@ const CourseDetail = () => {
         </div>
       </div>
 
-      <div className="container py-5">
+      <div className="course-detail-body">
         <div className="row">
           {/* Main Content */}
           <div className="col-lg-8">
             {/* Course Content */}
-            <div className="card border-0 shadow-sm mb-4">
-              <div className="card-header bg-white">
-                <h5 className="mb-0">
-                  <SchoolIcon className="me-2" />
+            <div className="content-card">
+              <div className="content-card-header">
+                <h3>
+                  <SchoolIcon />
                   Course Content
-                </h5>
-                <small className="text-muted">
+                </h3>
+                <span className="subtitle">
                   {course.sections?.length || 0} sections • {getTotalDuration()} min total length
-                </small>
+                </span>
               </div>
-              <div className="card-body p-0">
-                {course.sections?.length > 0 ? (
-                  <div className="list-group list-group-flush">
-                    {course.sections.map((section, index) => (
-                      <div
-                        key={section._id || index}
-                        className="list-group-item d-flex align-items-center py-3"
-                      >
-                        <div className="me-3">
-                          <div
-                            className="d-flex align-items-center justify-content-center rounded-circle bg-primary text-white"
-                            style={{ width: 40, height: 40 }}
-                          >
-                            {index + 1}
-                          </div>
-                        </div>
-                        <div className="flex-grow-1">
-                          <h6 className="mb-1">{section.title}</h6>
-                          {section.description && (
-                            <p className="text-muted small mb-0">
-                              {section.description}
-                            </p>
-                          )}
-                        </div>
-                        <div className="text-muted small">
-                          {section.duration > 0 ? `${section.duration} min` : 'N/A'}
-                        </div>
-                        {section.videoUrl && (
-                          <PlayCircleIcon className="ms-3 text-primary" />
+              {course.sections?.length > 0 ? (
+                <div>
+                  {course.sections.map((section, index) => (
+                    <div
+                      key={section._id || index}
+                      className="section-list-item"
+                    >
+                      <div className="section-number">
+                        {index + 1}
+                      </div>
+                      <div className="section-list-info">
+                        <h4>{section.title}</h4>
+                        {section.description && (
+                          <p>{section.description}</p>
                         )}
                       </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-5">
-                    <PlayCircleIcon style={{ fontSize: 48, color: '#ccc' }} />
-                    <p className="text-muted mt-2">No sections available yet</p>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* What You'll Learn */}
-            <div className="card border-0 shadow-sm mb-4">
-              <div className="card-header bg-white">
-                <h5 className="mb-0">What You'll Learn</h5>
-              </div>
-              <div className="card-body">
-                <div className="row">
-                  {course.sections?.slice(0, 6).map((section, index) => (
-                    <div key={index} className="col-md-6 mb-2">
-                      <div className="d-flex align-items-start">
-                        <CheckCircleIcon
-                          className="text-success me-2"
-                          style={{ fontSize: 20, marginTop: 2 }}
-                        />
-                        <span>{section.title}</span>
-                      </div>
+                      <span className="section-list-duration">
+                        {section.duration > 0 ? `${section.duration} min` : 'N/A'}
+                      </span>
+                      {section.videoUrl && (
+                        <PlayCircleIcon style={{ color: 'var(--primary-500)', marginLeft: 8 }} />
+                      )}
                     </div>
                   ))}
                 </div>
+              ) : (
+                <div className="text-center py-5">
+                  <PlayCircleIcon style={{ fontSize: 48, color: '#ccc' }} />
+                  <p className="text-muted mt-2">No sections available yet</p>
+                </div>
+              )}
+            </div>
+
+            {/* What You'll Learn */}
+            <div className="content-card">
+              <div className="content-card-header">
+                <h3>What You'll Learn</h3>
+              </div>
+              <div className="learn-grid">
+                {course.sections?.slice(0, 6).map((section, index) => (
+                  <div key={index} className="learn-item">
+                    <CheckCircleIcon style={{ fontSize: 20 }} />
+                    <span>{section.title}</span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
 
           {/* Sidebar */}
           <div className="col-lg-4">
-            <div className="card border-0 shadow-sm sticky-top" style={{ top: 90 }}>
+            <div className="sidebar-card">
               <img
                 src={
                   course.C_image
                     ? `http://localhost:5000${course.C_image}`
                     : 'https://placehold.co/400x300?text=Course+Image'
                 }
-                className="card-img-top"
+                className="sidebar-card-image"
                 alt={course.C_title}
               />
-              <div className="card-body">
-                <div className="d-flex justify-content-between align-items-center mb-4">
-                  <h2 className="mb-0">
-                    {course.C_price === 0 ? (
-                      <span className="text-success">Free</span>
-                    ) : (
-                      <span>${course.C_price}</span>
-                    )}
-                  </h2>
+              <div className="sidebar-card-body">
+                <div className={`sidebar-price ${course.C_price === 0 ? 'free' : ''}`}>
+                  {course.C_price === 0 ? 'Free' : `$${course.C_price}`}
                 </div>
 
                 {isEnrolled ? (
@@ -292,22 +270,22 @@ const CourseDetail = () => {
                   </button>
                 )}
 
-                <div className="text-muted small">
-                  <div className="d-flex justify-content-between py-2 border-bottom">
-                    <span>Sections</span>
-                    <strong>{course.sections?.length || 0}</strong>
+                <div className="sidebar-details">
+                  <div className="sidebar-detail-row">
+                    <span className="label">Sections</span>
+                    <span className="value">{course.sections?.length || 0}</span>
                   </div>
-                  <div className="d-flex justify-content-between py-2 border-bottom">
-                    <span>Duration</span>
-                    <strong>{getTotalDuration()} min</strong>
+                  <div className="sidebar-detail-row">
+                    <span className="label">Duration</span>
+                    <span className="value">{getTotalDuration()} min</span>
                   </div>
-                  <div className="d-flex justify-content-between py-2 border-bottom">
-                    <span>Enrolled</span>
-                    <strong>{course.enrolled} students</strong>
+                  <div className="sidebar-detail-row">
+                    <span className="label">Enrolled</span>
+                    <span className="value">{course.enrolled} students</span>
                   </div>
-                  <div className="d-flex justify-content-between py-2">
-                    <span>Certificate</span>
-                    <strong>Yes</strong>
+                  <div className="sidebar-detail-row">
+                    <span className="label">Certificate</span>
+                    <span className="value">Yes</span>
                   </div>
                 </div>
               </div>

@@ -151,203 +151,257 @@ const ManageCourseContent = () => {
   }
 
   return (
-    <div className="container py-4">
-      <Link to="/teacher" className="btn btn-outline-secondary mb-3">
-        <ArrowBackIcon fontSize="small" className="me-1" />
-        Back to Dashboard
-      </Link>
+    <div className="form-page">
+      <div className="form-page-container">
+        <Link to="/teacher" className="form-back-link">
+          <ArrowBackIcon fontSize="small" />
+          Back to Dashboard
+        </Link>
 
-      {/* Course Header */}
-      <div className="card border-0 shadow-sm mb-4">
-        <div className="card-body">
-          <div className="row align-items-center">
-            <div className="col-md-2">
-              <img
-                src={
-                  course.C_image
-                    ? `http://localhost:5000${course.C_image}`
-                    : 'https://placehold.co/200x120?text=Course'
-                }
-                className="img-fluid rounded"
-                alt={course.C_title}
-              />
-            </div>
-            <div className="col-md-8">
-              <span className="badge bg-primary mb-2">{course.C_categories}</span>
-              <h4 className="mb-1">{course.C_title}</h4>
-              <p className="text-muted mb-0 small">
-                {course.sections?.length || 0} sections • {course.enrolled} students enrolled
-              </p>
-            </div>
-            <div className="col-md-2 text-end">
-              <Link
-                to={`/add-course?edit=${courseId}`}
-                className="btn btn-outline-primary btn-sm"
-              >
-                <EditIcon fontSize="small" className="me-1" />
-                Edit Course
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Add Section Button */}
-      {!showAddSection && (
-        <button
-          className="btn btn-primary mb-4"
-          onClick={() => setShowAddSection(true)}
-        >
-          <AddIcon className="me-1" />
-          Add New Section
-        </button>
-      )}
-
-      {/* Add Section Form */}
-      {showAddSection && (
-        <div className="card border-0 shadow-sm mb-4">
-          <div className="card-header bg-white d-flex justify-content-between align-items-center">
-            <h5 className="mb-0">Add New Section</h5>
-            <button
-              className="btn btn-sm btn-outline-secondary"
-              onClick={resetForm}
-            >
-              <CloseIcon fontSize="small" />
-            </button>
-          </div>
-          <div className="card-body">
-            <form onSubmit={handleAddSection}>
-              <div className="row g-3">
-                <div className="col-md-8">
-                  <label className="form-label">Section Title *</label>
-                  <input
-                    type="text"
-                    name="title"
-                    className="form-control"
-                    placeholder="Enter section title"
-                    value={newSection.title}
-                    onChange={handleSectionChange}
-                    required
-                  />
-                </div>
-                <div className="col-md-4">
-                  <label className="form-label">Duration (minutes)</label>
-                  <input
-                    type="number"
-                    name="duration"
-                    className="form-control"
-                    placeholder="0"
-                    min="0"
-                    value={newSection.duration}
-                    onChange={handleSectionChange}
-                  />
-                </div>
-                <div className="col-12">
-                  <label className="form-label">Description</label>
-                  <textarea
-                    name="description"
-                    className="form-control"
-                    rows="3"
-                    placeholder="Enter section description (optional)"
-                    value={newSection.description}
-                    onChange={handleSectionChange}
-                  ></textarea>
-                </div>
-                <div className="col-12">
-                  <label className="form-label">
-                    <VideoLibraryIcon fontSize="small" className="me-1" />
-                    Video Content
-                  </label>
-                  <input
-                    type="file"
-                    name="videoFile"
-                    className="form-control"
-                    accept="video/*"
-                    onChange={handleSectionChange}
-                  />
-                  <small className="text-muted">
-                    Supported formats: MP4, WebM, OGG. Max size: 100MB
-                  </small>
-                </div>
-
-                {uploadProgress > 0 && uploadProgress < 100 && (
-                  <div className="col-12">
-                    <div className="progress">
-                      <div
-                        className="progress-bar progress-bar-striped progress-bar-animated"
-                        style={{ width: `${uploadProgress}%` }}
-                      >
-                        {uploadProgress}%
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                <div className="col-12">
-                  <button
-                    type="submit"
-                    className="btn btn-primary"
-                    disabled={saving}
-                  >
-                    {saving ? (
-                      <>
-                        <CircularProgress size={20} color="inherit" className="me-2" />
-                        Uploading...
-                      </>
-                    ) : (
-                      <>
-                        <SaveIcon className="me-1" />
-                        Save Section
-                      </>
-                    )}
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-outline-secondary ms-2"
-                    onClick={resetForm}
-                  >
-                    Cancel
-                  </button>
-                </div>
+        {/* Course Header */}
+        <div className="content-card mb-4">
+          <div style={{ padding: 'var(--space-5) var(--space-6)' }}>
+            <div className="row align-items-center">
+              <div className="col-md-2">
+                <img
+                  src={
+                    course.C_image
+                      ? `http://localhost:5000${course.C_image}`
+                      : 'https://placehold.co/200x120?text=Course'
+                  }
+                  className="img-fluid rounded"
+                  alt={course.C_title}
+                />
               </div>
-            </form>
+              <div className="col-md-8">
+                <span className="badge bg-primary mb-2">{course.C_categories}</span>
+                <h4 style={{ fontWeight: 600, color: 'var(--gray-900)', marginBottom: 'var(--space-1)' }}>{course.C_title}</h4>
+                <p style={{ color: 'var(--gray-500)', fontSize: 'var(--text-sm)', margin: 0 }}>
+                  {course.sections?.length || 0} sections • {course.enrolled} students enrolled
+                </p>
+              </div>
+              <div className="col-md-2 text-end">
+                <Link
+                  to={`/add-course?edit=${courseId}`}
+                  className="btn btn-outline-primary btn-sm"
+                >
+                  <EditIcon fontSize="small" className="me-1" />
+                  Edit Course
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
-      )}
 
-      {/* Sections List */}
-      <div className="card border-0 shadow-sm">
-        <div className="card-header bg-white">
-          <h5 className="mb-0">
-            <VideoLibraryIcon className="me-2" />
-            Course Sections ({course.sections?.length || 0})
-          </h5>
-        </div>
-        <div className="card-body p-0">
+        {/* Add Section Button */}
+        {!showAddSection && (
+          <button
+            className="btn btn-primary mb-4"
+            onClick={() => setShowAddSection(true)}
+          >
+            <AddIcon className="me-1" />
+            Add New Section
+          </button>
+        )}
+
+        {/* Add Section Form */}
+        {showAddSection && (
+          <div className="form-card mb-4">
+            <div className="form-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <h2 style={{ fontSize: 'var(--text-lg)' }}>Add New Section</h2>
+              <button
+                className="btn btn-sm btn-outline-secondary"
+                onClick={resetForm}
+              >
+                <CloseIcon fontSize="small" />
+              </button>
+            </div>
+            <div className="form-card-body">
+              <form onSubmit={handleAddSection}>
+                <div className="row g-3">
+                  <div className="col-md-8">
+                    <label className="form-label">Section Title *</label>
+                    <input
+                      type="text"
+                      name="title"
+                      className="form-control"
+                      placeholder="Enter section title"
+                      value={newSection.title}
+                      onChange={handleSectionChange}
+                      required
+                    />
+                  </div>
+                  <div className="col-md-4">
+                    <label className="form-label">Duration (minutes)</label>
+                    <input
+                      type="number"
+                      name="duration"
+                      className="form-control"
+                      placeholder="0"
+                      min="0"
+                      value={newSection.duration}
+                      onChange={handleSectionChange}
+                    />
+                  </div>
+                  <div className="col-12">
+                    <label className="form-label">Description</label>
+                    <textarea
+                      name="description"
+                      className="form-control"
+                      rows="3"
+                      placeholder="Enter section description (optional)"
+                      value={newSection.description}
+                      onChange={handleSectionChange}
+                    ></textarea>
+                  </div>
+                  <div className="col-12">
+                    <label className="form-label">
+                      <VideoLibraryIcon fontSize="small" className="me-1" />
+                      Video Content
+                    </label>
+                    <input
+                      type="file"
+                      name="videoFile"
+                      className="form-control"
+                      accept="video/*"
+                      onChange={handleSectionChange}
+                    />
+                    <small className="form-text">
+                      Supported formats: MP4, WebM, OGG. Max size: 100MB
+                    </small>
+                  </div>
+
+                  {uploadProgress > 0 && uploadProgress < 100 && (
+                    <div className="col-12">
+                      <div className="learning-progress-bar" style={{ height: 8 }}>
+                        <div
+                          className="learning-progress-fill"
+                          style={{ width: `${uploadProgress}%` }}
+                        ></div>
+                      </div>
+                      <small style={{ color: 'var(--gray-500)' }}>{uploadProgress}%</small>
+                    </div>
+                  )}
+
+                  <div className="col-12 form-actions" style={{ marginTop: 'var(--space-3)' }}>
+                    <button
+                      type="submit"
+                      className="btn btn-primary"
+                      disabled={saving}
+                    >
+                      {saving ? (
+                        <>
+                          <CircularProgress size={20} color="inherit" className="me-2" />
+                          Uploading...
+                        </>
+                      ) : (
+                        <>
+                          <SaveIcon className="me-1" />
+                          Save Section
+                        </>
+                      )}
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-outline-secondary"
+                      onClick={resetForm}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {/* Sections List */}
+        <div className="content-card">
+          <div className="content-card-header">
+            <h3>
+              <VideoLibraryIcon />
+              Course Sections ({course.sections?.length || 0})
+            </h3>
+          </div>
           {course.sections?.length > 0 ? (
-            <div className="list-group list-group-flush">
+            <div>
               {course.sections.map((section, index) => (
                 <div
                   key={section._id}
-                  className="list-group-item p-3"
+                  className="section-list-item"
+                  style={{ alignItems: 'flex-start', flexDirection: 'column', gap: 'var(--space-3)' }}
                 >
-                  <div className="d-flex align-items-start">
-                    <div
-                      className="d-flex align-items-center justify-content-center rounded bg-light me-3"
-                      style={{ width: 50, height: 50, minWidth: 50 }}
-                    >
+                  <div className="d-flex align-items-start w-100">
+                    <div className="section-number">
                       {section.videoUrl ? (
-                        <PlayCircleIcon style={{ color: '#2563eb' }} />
+                        <PlayCircleIcon style={{ color: 'var(--primary-600)', fontSize: 20 }} />
                       ) : (
-                        <span className="fw-bold text-muted">{index + 1}</span>
+                        <span>{index + 1}</span>
                       )}
                     </div>
 
-                    <div className="flex-grow-1">
+                    <div className="section-list-info" style={{ flex: 1 }}>
                       {editingSectionIndex === index ? (
                         <EditSectionForm
                           section={section}
                           onSave={(updates) => handleUpdateSection(section._id, updates)}
+                          onCancel={() => setEditingSectionIndex(null)}
+                        />
+                      ) : (
+                        <>
+                          <h4 style={{ fontSize: 'var(--text-base)', fontWeight: 600 }}>{section.title}</h4>
+                          {section.description && (
+                            <p style={{ marginBottom: 'var(--space-2)' }}>{section.description}</p>
+                          )}
+                          <div className="d-flex gap-3" style={{ fontSize: 'var(--text-xs)', color: 'var(--gray-500)' }}>
+                            {section.duration > 0 && (
+                              <span>Duration: {section.duration} min</span>
+                            )}
+                            {section.videoUrl && (
+                              <span style={{ color: 'var(--success-600)' }}>
+                                <PlayCircleIcon fontSize="small" className="me-1" />
+                                Video uploaded
+                              </span>
+                            )}
+                          </div>
+                        </>
+                      )}
+                    </div>
+
+                    {editingSectionIndex !== index && (
+                      <div className="d-flex gap-2" style={{ marginLeft: 'var(--space-4)' }}>
+                        <button
+                          className="btn btn-outline-primary btn-sm"
+                          onClick={() => setEditingSectionIndex(index)}
+                        >
+                          <EditIcon fontSize="small" />
+                        </button>
+                        <button
+                          className="btn btn-outline-danger btn-sm"
+                          onClick={() => handleDeleteSection(section._id)}
+                        >
+                          <DeleteIcon fontSize="small" />
+                        </button>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Video Preview */}
+                  {section.videoUrl && editingSectionIndex !== index && (
+                    <div style={{ marginLeft: 56, paddingLeft: 'var(--space-3)' }}>
+                      <video
+                        controls
+                        className="rounded"
+                        style={{ maxWidth: '100%', maxHeight: 200 }}
+                        src={`http://localhost:5000${section.videoUrl}`}
+                      >
+                        Your browser does not support the video tag.
+                      </video>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
                           onCancel={() => setEditingSectionIndex(null)}
                         />
                       ) : (
@@ -409,9 +463,9 @@ const ManageCourseContent = () => {
             </div>
           ) : (
             <div className="text-center py-5">
-              <VideoLibraryIcon style={{ fontSize: 60, color: '#ccc' }} />
-              <h5 className="mt-3">No sections yet</h5>
-              <p className="text-muted">
+              <VideoLibraryIcon style={{ fontSize: 60, color: 'var(--gray-300)' }} />
+              <h5 className="mt-3" style={{ color: 'var(--gray-700)' }}>No sections yet</h5>
+              <p style={{ color: 'var(--gray-500)' }}>
                 Add sections to your course to start sharing content
               </p>
               <button
